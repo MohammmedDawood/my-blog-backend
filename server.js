@@ -1,8 +1,16 @@
 var express = require("express");
 var { MongoClient } = require("mongodb");
 var path = require("path");
+var morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
+
+//request logger
+app.use(morgan("tiny"));
+
+app.use(cors());
+app.options("*", cors());
 
 app.use(express.static(path.join(__dirname, "/src/build")));
 app.use(express.json());
@@ -83,4 +91,8 @@ app.post("/api/articles/:name/add-comment", (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/src/build/index.html"));
 });
-app.listen(8000, () => console.log("Listening on port 8000"));
+// set port, listen for requests
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
