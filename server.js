@@ -1,7 +1,7 @@
-import express from "express";
-import bodyParser from "body-parser";
-import { MongoClient } from "mongodb";
-import path from "path";
+var express = require("express");
+var path = require("path");
+var bodyParser = require("body-parser");
+var { MongoClient } = require("mongodb");
 
 const app = express();
 
