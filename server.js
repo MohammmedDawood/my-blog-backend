@@ -2,13 +2,44 @@ var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
 var { MongoClient } = require("mongodb");
+var morgan = require("morgan");
+const cors = require("cors");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "/build")));
+//request logger
+app.use(morgan("tiny"));
+
+app.use(cors());
+app.options("*", cors());
+
+// var corsOptions = {
+//     origin: "http://localhost:8081"
+// };
+
+// //cross Origin
+// app.use(cors(corsOptions));
+
+// parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-// to refactor and reduce the data base connection code lines
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+
+// simple route
+app.get("/", (req, res) => {
+  res.json({
+    message: "Welcome to sara application.",
+  });
+});
+
+app.use(express.static(path.join(__dirname, "/build")));
+
+//// db connection to refactor and reduce the data base connection code lines
 const withDB = async (operations, res) => {
   try {
     const client = await MongoClient.connect("mongodb://localhost:27017", {
