@@ -1,12 +1,11 @@
-import express from "express";
-import bodyParser from "body-parser";
-import { MongoClient } from "mongodb";
-import path from "path";
+var express = require("express");
+var { MongoClient } = require("mongodb");
+var path = require("path");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "/build")));
-app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "/src/build")));
+app.use(express.json());
 
 // to refactor and reduce the data base connection code lines
 const withDB = async (operations, res) => {
@@ -82,6 +81,6 @@ app.post("/api/articles/:name/add-comment", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/build/index.html"));
+  res.sendFile(path.join(__dirname + "/src/build/index.html"));
 });
 app.listen(8000, () => console.log("Listening on port 8000"));
