@@ -1,7 +1,7 @@
-var express = require("express");
-var { MongoClient } = require("mongodb");
-var path = require("path");
-var morgan = require("morgan");
+const express = require("express");
+const { MongoClient } = require("mongodb");
+const path = require("path");
+const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
